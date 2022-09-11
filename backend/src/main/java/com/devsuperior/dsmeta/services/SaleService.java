@@ -31,8 +31,4 @@ public class SaleService {
     return repository.findSales(min, max, pageable);
   }
 
-  public Sale findSaleId(Long id) {
-    return repository.getReferenceById(id);
-  }
-
 }

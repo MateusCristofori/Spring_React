@@ -39,9 +39,4 @@ public class SaleController {
     smsService.sendSms(id);
   }
 
-  @GetMapping("/{id}")
-  public Sale findSalesById(@PathVariable Long id) {
-    return service.findSaleId(id);
-  }
-
 }
