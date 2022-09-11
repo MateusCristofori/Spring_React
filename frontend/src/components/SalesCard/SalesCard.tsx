@@ -4,6 +4,8 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { BASE_URL } from '../../utils/resquest' // Definimos o caminho da API dentro do arquivo "request.ts".
+import { Sale } from '../../models/Sale'
 
 const SalesCard = () => {
   const [minDate, setMinDate] = useState(
@@ -11,9 +13,12 @@ const SalesCard = () => {
   )
   const [maxDate, setMaxDate] = useState(new Date())
 
+  const [sales, setSales] = useState<Sale[]>([])
+
+  // estamos usando o template string para passar a URL padrão da API + o endpoint das vendas!
   useEffect(() => {
-    axios.get('http://localhost:8080/sales').then(response => {
-      console.log(response.data)
+    axios.get(`${BASE_URL}/sales`).then(response => {
+      setSales(response.data.content)
     })
   }, [])
 
@@ -53,32 +58,21 @@ const SalesCard = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="tc992">#341</td>
-                <td className="tc576">28/06/2022</td>
-                <td>Anakin</td>
-                <td className="tc992">15</td>
-                <td className="tc992">11</td>
-                <td>R$ 55300.00</td>
-                <td>
-                  <div className="dsmeta-btn-container">
+              {sales.map(sale => {
+                return (
+                  <tr key={sale.id}>
+                    <th className="tc992">{sale.id}</th>
+                    <th className="tc576">
+                      {new Date(sale.date).toLocaleDateString()}
+                    </th>
+                    <th>{sale.sellerName}</th>
+                    <th className="tc992">{sale.visited}</th>
+                    <th className="tc992">{sale.deals}</th>
+                    <th>R$ {sale.amount.toFixed(2)}</th>
                     <NotificationButton />
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td className="tc992">#341</td>
-                <td className="tc576">28/06/2022</td>
-                <td>Anakin</td>
-                <td className="tc992">15</td>
-                <td className="tc992">11</td>
-                <td>R$ 55300.00</td>
-                <td>
-                  <div className="dsmeta-btn-container">
-                    <NotificationButton />
-                  </div>
-                </td>
-              </tr>
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
