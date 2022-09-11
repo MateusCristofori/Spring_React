@@ -30,7 +30,8 @@ public class SmsService {
 
     Sale sale = repository.findById(saleId).get();
 
-    String msg = String.format("O vendedor %s foi destaque em %s/%s/%s com um total de R$ %.2f",
+    String msg = String.format(
+        "O vendedor %s foi destaque em %s/%s/%s com um total de R$ %.2f",
         sale.getSellerName(),
         sale.getDate().getDayOfMonth(),
         sale.getDate().getMonthValue(),

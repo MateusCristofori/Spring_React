@@ -22,4 +22,7 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
                                                                          // "amount" que existe dentro da classe "Sale"
                                                                          // de forma decrescente ("DESC").
 
+  @Query("SELECT obj FROM Sale obj WHERE obj.id")
+  Sale findSalesById(Long id);
+
 }
